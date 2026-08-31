@@ -11,6 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.cart.selectors import get_user_cart
+from apps.common.idempotency import idempotent_request
 from apps.inventory.services import InsufficientStockError
 from apps.orders.models import Order
 from apps.orders.selectors import list_user_orders
@@ -38,9 +39,13 @@ class CheckoutAPIView(APIView):
         responses={
             201: OrderSerializer,
             400: OpenApiResponse(description="Cart is empty, stock is insufficient, or validation error"),
+            409: OpenApiResponse(description="Request already in progress for this idempotency key"),
+            422: OpenApiResponse(description="Idempotency key payload mismatch"),
         },
     )
+    @idempotent_request
     def post(self, request: Request) -> Response:
+
         input_serializer = CheckoutInputSerializer(data=request.data)
         input_serializer.is_valid(raise_exception=True)
 
