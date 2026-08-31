@@ -4,6 +4,7 @@ Stock service layer: Business logic for inventory adjustments and stock audit le
 
 from django.core.exceptions import ValidationError
 from django.db import transaction
+
 from apps.catalog.models import ProductVariant
 from apps.inventory.models import InventoryItem, InventoryTransaction
 
@@ -12,7 +13,6 @@ class InsufficientStockError(ValidationError):
     """
     Raised when an operation would cause inventory to drop below zero.
     """
-    pass
 
 
 class StockService:

@@ -3,6 +3,7 @@ URL configuration for catalog app.
 """
 
 from rest_framework.routers import DefaultRouter
+
 from apps.catalog.views import CategoryReadOnlyViewSet, ProductReadOnlyViewSet
 
 app_name = "catalog"

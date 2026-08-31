@@ -3,6 +3,7 @@ Catalog serializers for DRF views.
 """
 
 from rest_framework import serializers
+
 from apps.catalog.models import Category, Product, ProductVariant
 
 

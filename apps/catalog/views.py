@@ -2,9 +2,13 @@
 Catalog views: Read-only API endpoints for Categories and Products.
 """
 
-from drf_spectacular.utils import extend_schema, extend_schema_view, OpenApiParameter
+from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from rest_framework import permissions, viewsets
-from apps.catalog.selectors import list_active_categories, list_active_products, get_product_by_slug
+
+from apps.catalog.selectors import (
+    list_active_categories,
+    list_active_products,
+)
 from apps.catalog.serializers import CategorySerializer, ProductSerializer
 
 

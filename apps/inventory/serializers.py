@@ -3,6 +3,7 @@ Inventory serializers for DRF views.
 """
 
 from rest_framework import serializers
+
 from apps.inventory.models import InventoryItem, InventoryTransaction
 
 

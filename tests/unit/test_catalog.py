@@ -3,8 +3,10 @@ Unit tests for catalog domain models and selectors.
 """
 
 from decimal import Decimal
+
 import pytest
 from django.db import IntegrityError
+
 from apps.catalog.models import Category, Product, ProductVariant
 from apps.catalog.selectors import (
     get_category_by_slug,
@@ -122,9 +124,9 @@ class TestCatalogSelectors:
         cat1 = Category.objects.create(name="Cat 1", slug="cat-1")
         cat2 = Category.objects.create(name="Cat 2", slug="cat-2")
 
-        p1 = Product.objects.create(category=cat1, title="P1", slug="p1", base_price=Decimal("10"), is_active=True)
-        p2 = Product.objects.create(category=cat2, title="P2", slug="p2", base_price=Decimal("20"), is_active=True)
-        Product.objects.create(category=cat1, title="Inactive", slug="p-inactive", base_price=Decimal("30"), is_active=False)
+        Product.objects.create(category=cat1, title="P1", slug="p1", base_price=Decimal("10.00"), is_active=True)
+        Product.objects.create(category=cat2, title="P2", slug="p2", base_price=Decimal("20.00"), is_active=True)
+        Product.objects.create(category=cat1, title="Inactive", slug="p-inactive", base_price=Decimal("30.00"), is_active=False)
 
         active = list(list_active_products())
         assert len(active) == 2

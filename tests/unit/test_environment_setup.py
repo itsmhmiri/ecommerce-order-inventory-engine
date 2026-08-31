@@ -2,9 +2,9 @@
 Unit test verifying environment setup, settings, and app registry.
 """
 
-import pytest
-from django.conf import settings
 from django.apps import apps
+from django.conf import settings
+
 
 def test_settings_loaded():
     assert settings.SECRET_KEY is not None

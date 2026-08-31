@@ -3,10 +3,11 @@ Order and Checkout service layer: High-concurrency atomic checkout with row-leve
 """
 
 from decimal import Decimal
-from typing import Optional
+
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import transaction
+
 from apps.cart.models import Cart
 from apps.inventory.models import InventoryItem, InventoryTransaction
 from apps.inventory.services import InsufficientStockError

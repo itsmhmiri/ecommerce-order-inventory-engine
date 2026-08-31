@@ -2,13 +2,14 @@
 Inventory selectors: Read-only queries for stock and audit ledger transactions.
 """
 
-from typing import Optional
+
 from django.db.models import QuerySet
+
 from apps.catalog.models import ProductVariant
 from apps.inventory.models import InventoryItem, InventoryTransaction
 
 
-def get_inventory_for_variant(variant: ProductVariant) -> Optional[InventoryItem]:
+def get_inventory_for_variant(variant: ProductVariant) -> InventoryItem | None:
     """
     Retrieves the inventory item for a given product variant.
     """
@@ -17,8 +18,8 @@ def get_inventory_for_variant(variant: ProductVariant) -> Optional[InventoryItem
 
 def list_inventory_transactions(
     *,
-    variant_id: Optional[int] = None,
-    transaction_type: Optional[str] = None,
+    variant_id: int | None = None,
+    transaction_type: str | None = None,
 ) -> QuerySet[InventoryTransaction]:
     """
     Returns audit ledger transactions with optional filtering and prefetched relations.

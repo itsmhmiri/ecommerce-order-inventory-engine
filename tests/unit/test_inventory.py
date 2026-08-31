@@ -3,12 +3,17 @@ Unit tests for inventory domain models, constraints, audit ledger, and StockServ
 """
 
 from decimal import Decimal
+
 import pytest
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
+
 from apps.catalog.models import Category, Product, ProductVariant
 from apps.inventory.models import InventoryItem, InventoryTransaction
-from apps.inventory.selectors import get_inventory_for_variant, list_inventory_transactions
+from apps.inventory.selectors import (
+    get_inventory_for_variant,
+    list_inventory_transactions,
+)
 from apps.inventory.services import InsufficientStockError, StockService
 
 

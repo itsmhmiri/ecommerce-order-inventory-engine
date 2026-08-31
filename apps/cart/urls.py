@@ -3,6 +3,7 @@ Cart URL patterns for E-Commerce Order & Inventory Engine.
 """
 
 from django.urls import path
+
 from apps.cart.views import CartDetailView, CartItemCreateView, CartItemDetailView
 
 app_name = "cart"

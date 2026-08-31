@@ -3,6 +3,7 @@ Django admin configuration for inventory models.
 """
 
 from django.contrib import admin
+
 from apps.inventory.models import InventoryItem, InventoryTransaction
 
 

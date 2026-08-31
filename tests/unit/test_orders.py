@@ -3,13 +3,15 @@ Unit tests for order domain models, selectors, and CheckoutService.
 """
 
 from decimal import Decimal
+
 import pytest
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
+
+from apps.cart.models import Cart, CartItem
 from apps.catalog.models import Category, Product, ProductVariant
 from apps.inventory.models import InventoryItem, InventoryTransaction
 from apps.inventory.services import InsufficientStockError
-from apps.cart.models import Cart, CartItem
 from apps.orders.models import Order, OrderItem
 from apps.orders.selectors import get_order_by_id, list_user_orders
 from apps.orders.services import CheckoutService

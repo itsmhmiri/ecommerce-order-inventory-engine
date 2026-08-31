@@ -4,10 +4,11 @@ Cart service layer: Business logic for managing shopping cart items with invento
 
 from django.core.exceptions import ValidationError
 from django.db import transaction
+
+from apps.cart.models import Cart, CartItem
 from apps.catalog.models import ProductVariant
 from apps.inventory.models import InventoryItem
 from apps.inventory.services import InsufficientStockError
-from apps.cart.models import Cart, CartItem
 
 
 class CartService:

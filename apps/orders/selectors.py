@@ -2,10 +2,11 @@
 Order selectors: Read-only database queries and retrieval for Order and OrderItem entities.
 """
 
-from typing import Optional
 from uuid import UUID
+
 from django.contrib.auth import get_user_model
 from django.db.models import QuerySet
+
 from apps.orders.models import Order
 
 User = get_user_model()
@@ -26,7 +27,7 @@ def list_user_orders(*, user: User) -> QuerySet[Order]:
     )
 
 
-def get_order_by_id(*, order_id: UUID, user: Optional[User] = None) -> Optional[Order]:
+def get_order_by_id(*, order_id: UUID, user: User | None = None) -> Order | None:
     """
     Retrieves a specific order by UUID, optionally restricting the lookup to a specific user.
     """

@@ -2,8 +2,9 @@
 Inventory views: Admin-only audit ledger API endpoints.
 """
 
-from drf_spectacular.utils import extend_schema, extend_schema_view, OpenApiParameter
+from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from rest_framework import permissions, viewsets
+
 from apps.inventory.selectors import list_inventory_transactions
 from apps.inventory.serializers import InventoryTransactionSerializer
 

@@ -3,13 +3,12 @@ Unit tests for cart domain models, selectors, and CartService.
 """
 
 from decimal import Decimal
+
 import pytest
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
-from apps.catalog.models import Category, Product, ProductVariant
-from apps.inventory.models import InventoryItem
-from apps.inventory.services import InsufficientStockError
+
 from apps.cart.models import Cart, CartItem
 from apps.cart.selectors import (
     get_cart_by_id,
@@ -18,6 +17,9 @@ from apps.cart.selectors import (
     get_user_cart,
 )
 from apps.cart.services import CartService
+from apps.catalog.models import Category, Product, ProductVariant
+from apps.inventory.models import InventoryItem
+from apps.inventory.services import InsufficientStockError
 
 User = get_user_model()
 

@@ -2,8 +2,9 @@
 Order URL patterns for E-Commerce Order & Inventory Engine.
 """
 
-from django.urls import path, include
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
+
 from apps.orders.views import CheckoutAPIView, OrderReadOnlyViewSet
 
 app_name = "orders"

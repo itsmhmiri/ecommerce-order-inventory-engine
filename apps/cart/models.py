@@ -3,8 +3,10 @@ Cart domain models: Cart and CartItem.
 """
 
 from decimal import Decimal
+
 from django.conf import settings
 from django.db import models
+
 from apps.common.models import TimeStampedModel, UUIDModel
 
 

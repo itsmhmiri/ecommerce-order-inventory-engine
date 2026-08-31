@@ -3,8 +3,9 @@ Cart serializers for DRF API views and payload validation.
 """
 
 from rest_framework import serializers
-from apps.catalog.models import ProductVariant
+
 from apps.cart.models import Cart, CartItem
+from apps.catalog.models import ProductVariant
 
 
 class CartItemVariantSerializer(serializers.ModelSerializer):

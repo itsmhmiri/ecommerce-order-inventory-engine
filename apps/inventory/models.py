@@ -3,6 +3,7 @@ Inventory models: InventoryItem and InventoryTransaction (Audit Stock Ledger).
 """
 
 from django.db import models
+
 from apps.common.models import TimeStampedModel
 
 

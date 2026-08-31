@@ -3,8 +3,10 @@ Integration tests for catalog REST API endpoints.
 """
 
 from decimal import Decimal
+
 import pytest
 from rest_framework import status
+
 from apps.catalog.models import Category, Product, ProductVariant
 from apps.inventory.models import InventoryItem
 

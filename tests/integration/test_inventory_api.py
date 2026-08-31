@@ -3,9 +3,11 @@ Integration tests for inventory audit ledger API endpoints.
 """
 
 from decimal import Decimal
+
 import pytest
 from django.contrib.auth import get_user_model
 from rest_framework import status
+
 from apps.catalog.models import Category, Product, ProductVariant
 from apps.inventory.services import StockService
 

@@ -2,8 +2,9 @@
 Catalog selectors: Read-only database query functions and aggregations.
 """
 
-from typing import Optional
+
 from django.db.models import QuerySet
+
 from apps.catalog.models import Category, Product
 
 
@@ -14,14 +15,14 @@ def list_active_categories() -> QuerySet[Category]:
     return Category.objects.filter(is_active=True).order_by("name")
 
 
-def get_category_by_slug(slug: str) -> Optional[Category]:
+def get_category_by_slug(slug: str) -> Category | None:
     """
     Retrieves a single active category by its unique slug.
     """
     return Category.objects.filter(slug=slug, is_active=True).first()
 
 
-def list_active_products(category_slug: Optional[str] = None) -> QuerySet[Product]:
+def list_active_products(category_slug: str | None = None) -> QuerySet[Product]:
     """
     Returns active products with prefetched categories, variants, and stock inventories
     to avoid N+1 queries.
@@ -40,7 +41,7 @@ def list_active_products(category_slug: Optional[str] = None) -> QuerySet[Produc
     return qs
 
 
-def get_product_by_slug(slug: str) -> Optional[Product]:
+def get_product_by_slug(slug: str) -> Product | None:
     """
     Retrieves a single active product by its unique slug with all relations prefetched.
     """

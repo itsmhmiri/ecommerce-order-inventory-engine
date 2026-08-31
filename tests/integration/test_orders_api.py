@@ -3,14 +3,15 @@ Integration tests for Orders REST API endpoints.
 """
 
 from decimal import Decimal
+
 import pytest
 from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.test import APIClient
+
+from apps.cart.models import Cart, CartItem
 from apps.catalog.models import Category, Product, ProductVariant
 from apps.inventory.models import InventoryItem
-from apps.cart.models import Cart, CartItem
-from apps.orders.models import Order
 
 User = get_user_model()
 

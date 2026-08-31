@@ -2,13 +2,13 @@
 Order API views: Atomic checkout and authenticated order history / detail retrieval.
 """
 
-from drf_spectacular.utils import extend_schema, extend_schema_view, OpenApiResponse
+from django.core.exceptions import ValidationError as DjangoValidationError
+from drf_spectacular.utils import OpenApiResponse, extend_schema, extend_schema_view
 from rest_framework import permissions, status, viewsets
 from rest_framework.exceptions import ValidationError as DRFValidationError
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.core.exceptions import ValidationError as DjangoValidationError
 
 from apps.cart.selectors import get_user_cart
 from apps.inventory.services import InsufficientStockError

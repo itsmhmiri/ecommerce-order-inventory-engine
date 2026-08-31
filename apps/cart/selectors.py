@@ -2,16 +2,16 @@
 Cart selectors: Read-only database queries and retrieval for Cart and CartItem entities.
 """
 
-from typing import Optional, Tuple
 from uuid import UUID
+
 from django.contrib.auth import get_user_model
-from django.db.models import QuerySet
+
 from apps.cart.models import Cart, CartItem
 
 User = get_user_model()
 
 
-def get_user_cart(*, user: User) -> Optional[Cart]:
+def get_user_cart(*, user: User) -> Cart | None:
     """
     Retrieves the most recent cart for the specified authenticated user,
     prefetching related variants, products, and inventory for efficient serialization.
@@ -27,7 +27,7 @@ def get_user_cart(*, user: User) -> Optional[Cart]:
     )
 
 
-def get_or_create_user_cart(*, user: User) -> Tuple[Cart, bool]:
+def get_or_create_user_cart(*, user: User) -> tuple[Cart, bool]:
     """
     Retrieves the existing cart for the user or creates a new one.
     """
@@ -38,7 +38,7 @@ def get_or_create_user_cart(*, user: User) -> Tuple[Cart, bool]:
     return created_cart, True
 
 
-def get_cart_by_id(*, cart_id: UUID) -> Optional[Cart]:
+def get_cart_by_id(*, cart_id: UUID) -> Cart | None:
     """
     Retrieves a specific cart by its UUID with prefetching.
     """
@@ -53,7 +53,7 @@ def get_cart_by_id(*, cart_id: UUID) -> Optional[Cart]:
     )
 
 
-def get_cart_item(*, cart: Cart, item_id: int) -> Optional[CartItem]:
+def get_cart_item(*, cart: Cart, item_id: int) -> CartItem | None:
     """
     Retrieves a specific CartItem belonging to the provided Cart.
     """
