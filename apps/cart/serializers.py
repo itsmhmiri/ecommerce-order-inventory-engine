@@ -12,6 +12,7 @@ class CartItemVariantSerializer(serializers.ModelSerializer):
     """
     Nested serializer for variant information within a cart item.
     """
+
     product_title = serializers.CharField(source="product.title", read_only=True)
     product_slug = serializers.CharField(source="product.slug", read_only=True)
     effective_price = serializers.DecimalField(max_digits=12, decimal_places=2, read_only=True)
@@ -40,6 +41,7 @@ class CartItemSerializer(serializers.ModelSerializer):
     """
     Output serializer for cart line items.
     """
+
     variant = CartItemVariantSerializer(read_only=True)
     unit_price = serializers.DecimalField(max_digits=12, decimal_places=2, read_only=True)
     subtotal = serializers.DecimalField(max_digits=12, decimal_places=2, read_only=True)
@@ -62,6 +64,7 @@ class AddCartItemInputSerializer(serializers.Serializer):
     """
     Input serializer for adding an item to the shopping cart.
     """
+
     variant_id = serializers.IntegerField(
         required=True,
         help_text="Primary key of the ProductVariant SKU to add.",
@@ -85,6 +88,7 @@ class UpdateCartItemInputSerializer(serializers.Serializer):
     """
     Input serializer for updating quantity of an existing cart item.
     """
+
     quantity = serializers.IntegerField(
         required=True,
         min_value=1,
@@ -96,6 +100,7 @@ class CartSerializer(serializers.ModelSerializer):
     """
     Output serializer representing the complete shopping cart and itemized breakdown.
     """
+
     user_id = serializers.IntegerField(source="user.id", read_only=True, allow_null=True)
     items = CartItemSerializer(many=True, read_only=True)
     total_items = serializers.IntegerField(read_only=True)

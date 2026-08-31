@@ -11,6 +11,7 @@ class CategorySerializer(serializers.ModelSerializer):
     """
     Serializer for product categories.
     """
+
     class Meta:
         model = Category
         fields = [
@@ -27,6 +28,7 @@ class ProductVariantSerializer(serializers.ModelSerializer):
     """
     Serializer for product variants (SKUs), including effective price and live stock availability.
     """
+
     effective_price = serializers.DecimalField(
         max_digits=12,
         decimal_places=2,
@@ -65,6 +67,7 @@ class ProductSerializer(serializers.ModelSerializer):
     """
     Serializer for products including nested category and variants.
     """
+
     category = CategorySerializer(read_only=True)
     variants = ProductVariantSerializer(many=True, read_only=True)
 

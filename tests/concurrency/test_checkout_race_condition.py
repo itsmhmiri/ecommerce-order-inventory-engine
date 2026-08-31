@@ -47,10 +47,7 @@ def test_concurrent_checkout_prevents_overselling():
     inventory = InventoryItem.objects.create(variant=variant, quantity=1, reserved_quantity=0)
 
     # 2. Create 10 distinct users, each with 1 item in their cart
-    users = [
-        User.objects.create_user(username=f"shopper_{i}", password="password123")
-        for i in range(10)
-    ]
+    users = [User.objects.create_user(username=f"shopper_{i}", password="password123") for i in range(10)]
     carts = []
     for u in users:
         c = Cart.objects.create(user=u)
@@ -72,10 +69,7 @@ def test_concurrent_checkout_prevents_overselling():
 
     # 3. Execute 10 simultaneous threads
     with ThreadPoolExecutor(max_workers=10) as executor:
-        futures = [
-            executor.submit(attempt_checkout, users[i], carts[i])
-            for i in range(10)
-        ]
+        futures = [executor.submit(attempt_checkout, users[i], carts[i]) for i in range(10)]
         results = [f.result() for f in futures]
 
     successes = [r for r in results if r[0] == "SUCCESS"]

@@ -12,6 +12,7 @@ class InventoryItem(TimeStampedModel):
     Inventory item tracking current on-hand and reserved quantities for a product SKU.
     Enforces non-negative stock constraints at the database level.
     """
+
     variant = models.OneToOneField(
         "catalog.ProductVariant",
         on_delete=models.CASCADE,
@@ -57,6 +58,7 @@ class InventoryTransaction(models.Model):
     Immutable audit ledger recording every change in inventory quantity.
     Provides complete historical tracking of restocks, sales deductions, returns, and manual adjustments.
     """
+
     class TransactionType(models.TextChoices):
         PURCHASE_DEDUCTION = "PURCHASE_DEDUCTION", "Purchase Deduction"
         RESTOCK = "RESTOCK", "Restock"

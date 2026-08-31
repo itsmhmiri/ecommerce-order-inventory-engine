@@ -8,9 +8,11 @@ from rest_framework.test import APIClient
 
 User = get_user_model()
 
+
 @pytest.fixture
 def api_client():
     return APIClient()
+
 
 @pytest.fixture
 def auth_user(db):
@@ -19,6 +21,7 @@ def auth_user(db):
         email="testuser@example.com",
         password="securepassword123",
     )
+
 
 @pytest.fixture
 def authenticated_client(api_client, auth_user):

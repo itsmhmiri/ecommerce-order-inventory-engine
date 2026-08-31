@@ -11,6 +11,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
     """
     Serializer for order line items with immutable historical price and SKU snapshot fields.
     """
+
     variant_id = serializers.IntegerField(source="variant.id", read_only=True)
 
     class Meta:
@@ -31,6 +32,7 @@ class OrderSerializer(serializers.ModelSerializer):
     """
     Output serializer for full Order details with itemized snapshot lines.
     """
+
     user_id = serializers.IntegerField(source="user.id", read_only=True)
     items = OrderItemSerializer(many=True, read_only=True)
     total_items = serializers.IntegerField(read_only=True)
@@ -55,6 +57,7 @@ class CheckoutInputSerializer(serializers.Serializer):
     """
     Input serializer for cart checkout.
     """
+
     shipping_address = serializers.CharField(
         required=False,
         allow_blank=True,

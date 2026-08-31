@@ -105,11 +105,7 @@ class CartService:
             raise ValidationError("Quantity must be at least 1.")
 
         with transaction.atomic():
-            cart_item = (
-                CartItem.objects.filter(cart=cart, id=item_id)
-                .select_related("variant")
-                .first()
-            )
+            cart_item = CartItem.objects.filter(cart=cart, id=item_id).select_related("variant").first()
             if cart_item is None:
                 raise ValidationError(f"CartItem with ID {item_id} does not exist in this cart.")
 
@@ -119,8 +115,7 @@ class CartService:
 
             if quantity > available_stock:
                 raise InsufficientStockError(
-                    f"Insufficient stock for SKU '{variant.sku}'. "
-                    f"Available: {available_stock}, Requested: {quantity}."
+                    f"Insufficient stock for SKU '{variant.sku}'. Available: {available_stock}, Requested: {quantity}."
                 )
 
             cart_item.quantity = quantity

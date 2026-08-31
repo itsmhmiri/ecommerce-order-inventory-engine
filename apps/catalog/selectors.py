@@ -2,7 +2,6 @@
 Catalog selectors: Read-only database query functions and aggregations.
 """
 
-
 from django.db.models import QuerySet
 
 from apps.catalog.models import Category, Product

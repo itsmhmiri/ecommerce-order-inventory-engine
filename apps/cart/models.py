@@ -15,6 +15,7 @@ class Cart(UUIDModel):
     Shopping cart representing a customer's active selection of items.
     Supports authenticated users and guest sessions.
     """
+
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -61,6 +62,7 @@ class CartItem(TimeStampedModel):
     """
     Line item inside a shopping cart referencing a specific product variant SKU and quantity.
     """
+
     cart = models.ForeignKey(
         Cart,
         on_delete=models.CASCADE,

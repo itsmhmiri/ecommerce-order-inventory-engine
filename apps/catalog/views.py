@@ -28,6 +28,7 @@ class CategoryReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Read-only endpoint for browsing product categories.
     """
+
     serializer_class = CategorySerializer
     permission_classes = [permissions.AllowAny]
     lookup_field = "slug"
@@ -60,6 +61,7 @@ class ProductReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Read-only endpoint for products with nested SKU variants and stock levels.
     """
+
     serializer_class = ProductSerializer
     permission_classes = [permissions.AllowAny]
     lookup_field = "slug"

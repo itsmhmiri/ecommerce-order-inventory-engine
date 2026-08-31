@@ -13,6 +13,7 @@ class Category(TimeStampedModel):
     """
     Product category model.
     """
+
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
     is_active = models.BooleanField(default=True, db_index=True)
@@ -29,6 +30,7 @@ class Product(TimeStampedModel):
     """
     Base product model containing general product information.
     """
+
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
@@ -52,6 +54,7 @@ class ProductVariant(TimeStampedModel):
     Product variant (SKU) representing a specific purchasable option
     (e.g., specific size, color) with optional price override.
     """
+
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,

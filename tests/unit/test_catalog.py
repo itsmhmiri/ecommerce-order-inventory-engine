@@ -126,7 +126,9 @@ class TestCatalogSelectors:
 
         Product.objects.create(category=cat1, title="P1", slug="p1", base_price=Decimal("10.00"), is_active=True)
         Product.objects.create(category=cat2, title="P2", slug="p2", base_price=Decimal("20.00"), is_active=True)
-        Product.objects.create(category=cat1, title="Inactive", slug="p-inactive", base_price=Decimal("30.00"), is_active=False)
+        Product.objects.create(
+            category=cat1, title="Inactive", slug="p-inactive", base_price=Decimal("30.00"), is_active=False
+        )
 
         active = list(list_active_products())
         assert len(active) == 2
@@ -137,7 +139,9 @@ class TestCatalogSelectors:
 
     def test_get_product_by_slug(self):
         cat = Category.objects.create(name="Electronics", slug="electronics")
-        Product.objects.create(category=cat, title="Laptop", slug="laptop", base_price=Decimal("999.00"), is_active=True)
+        Product.objects.create(
+            category=cat, title="Laptop", slug="laptop", base_price=Decimal("999.00"), is_active=True
+        )
 
         product = get_product_by_slug("laptop")
         assert product is not None

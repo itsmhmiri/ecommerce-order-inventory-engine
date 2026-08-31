@@ -27,6 +27,7 @@ class CartDetailView(APIView):
     """
     Retrieve or clear the authenticated user's current shopping cart.
     """
+
     permission_classes = [permissions.IsAuthenticated]
 
     @extend_schema(
@@ -57,6 +58,7 @@ class CartItemCreateView(APIView):
     """
     Add a product variant SKU to the authenticated user's shopping cart.
     """
+
     permission_classes = [permissions.IsAuthenticated]
 
     @extend_schema(
@@ -96,6 +98,7 @@ class CartItemDetailView(APIView):
     """
     Update or remove a specific line item in the authenticated user's cart.
     """
+
     permission_classes = [permissions.IsAuthenticated]
 
     @extend_schema(

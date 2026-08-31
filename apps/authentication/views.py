@@ -15,6 +15,7 @@ class UserRegisterView(APIView):
     """
     Public endpoint for registering a new customer account.
     """
+
     permission_classes = [permissions.AllowAny]
 
     @extend_schema(

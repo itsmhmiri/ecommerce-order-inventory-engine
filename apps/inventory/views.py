@@ -39,6 +39,7 @@ class InventoryLedgerViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Admin-only read-only viewset for inspecting the inventory audit trail.
     """
+
     serializer_class = InventoryTransactionSerializer
     permission_classes = [permissions.IsAdminUser]
 

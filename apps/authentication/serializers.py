@@ -13,6 +13,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     """
     Input serializer for new user registration.
     """
+
     password = serializers.CharField(
         write_only=True,
         required=True,
@@ -57,6 +58,7 @@ class UserSerializer(serializers.ModelSerializer):
     """
     Output serializer for user profile information.
     """
+
     class Meta:
         model = User
         fields = [

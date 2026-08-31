@@ -64,7 +64,10 @@ class TestCartAPIAuthentication:
     def test_anonymous_access_forbidden(self, api_client):
         assert api_client.get("/api/v1/cart/").status_code == status.HTTP_401_UNAUTHORIZED
         assert api_client.delete("/api/v1/cart/").status_code == status.HTTP_401_UNAUTHORIZED
-        assert api_client.post("/api/v1/cart/items/", {"variant_id": 1, "quantity": 1}).status_code == status.HTTP_401_UNAUTHORIZED
+        assert (
+            api_client.post("/api/v1/cart/items/", {"variant_id": 1, "quantity": 1}).status_code
+            == status.HTTP_401_UNAUTHORIZED
+        )
         assert api_client.patch("/api/v1/cart/items/1/", {"quantity": 2}).status_code == status.HTTP_401_UNAUTHORIZED
         assert api_client.delete("/api/v1/cart/items/1/").status_code == status.HTTP_401_UNAUTHORIZED
 

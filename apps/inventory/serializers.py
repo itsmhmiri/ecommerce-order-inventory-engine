@@ -11,6 +11,7 @@ class InventoryItemSerializer(serializers.ModelSerializer):
     """
     Serializer for inventory items.
     """
+
     variant_sku = serializers.CharField(source="variant.sku", read_only=True)
     available_quantity = serializers.IntegerField(read_only=True)
     is_in_stock = serializers.BooleanField(read_only=True)
@@ -35,6 +36,7 @@ class InventoryTransactionSerializer(serializers.ModelSerializer):
     """
     Serializer for immutable stock ledger transactions.
     """
+
     variant_sku = serializers.CharField(source="inventory_item.variant.sku", read_only=True)
     product_title = serializers.CharField(source="inventory_item.variant.product.title", read_only=True)
 

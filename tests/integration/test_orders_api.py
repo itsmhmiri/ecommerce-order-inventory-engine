@@ -48,7 +48,7 @@ def orders_api_setup(db):
     )
 
     InventoryItem.objects.create(variant=var1, quantity=10, reserved_quantity=0)  # Available: 10
-    InventoryItem.objects.create(variant=var2, quantity=1, reserved_quantity=0)   # Available: 1
+    InventoryItem.objects.create(variant=var2, quantity=1, reserved_quantity=0)  # Available: 1
 
     cart_a = Cart.objects.create(user=user_a)
     cart_b = Cart.objects.create(user=user_b)
@@ -160,3 +160,17 @@ class TestOrdersAPIListAndRetrieve:
         # Bob tries to access Alice's order
         bob_res = client_b.get(f"/api/v1/orders/{order_id}/")
         assert bob_res.status_code == status.HTTP_404_NOT_FOUND
+
+    def test_retrieve_non_existent_order_returns_404(self, orders_api_setup):
+        import uuid
+
+        client_a = orders_api_setup["client_a"]
+        res = client_a.get(f"/api/v1/orders/{uuid.uuid4()}/")
+        assert res.status_code == status.HTTP_404_NOT_FOUND
+
+    def test_order_viewset_swagger_fake_view(self):
+        from apps.orders.views import OrderReadOnlyViewSet
+
+        view = OrderReadOnlyViewSet()
+        view.swagger_fake_view = True
+        assert view.get_queryset().count() == 0

@@ -58,7 +58,7 @@ def checkout_setup(db):
     )
 
     inv1 = InventoryItem.objects.create(variant=var1, quantity=10, reserved_quantity=0)  # Available: 10
-    inv2 = InventoryItem.objects.create(variant=var2, quantity=2, reserved_quantity=0)   # Available: 2
+    inv2 = InventoryItem.objects.create(variant=var2, quantity=2, reserved_quantity=0)  # Available: 2
     InventoryItem.objects.create(variant=inactive_var, quantity=5, reserved_quantity=0)
 
     cart = Cart.objects.create(user=user)

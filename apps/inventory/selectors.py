@@ -2,7 +2,6 @@
 Inventory selectors: Read-only queries for stock and audit ledger transactions.
 """
 
-
 from django.db.models import QuerySet
 
 from apps.catalog.models import ProductVariant
@@ -24,14 +23,11 @@ def list_inventory_transactions(
     """
     Returns audit ledger transactions with optional filtering and prefetched relations.
     """
-    qs = (
-        InventoryTransaction.objects.select_related(
-            "inventory_item",
-            "inventory_item__variant",
-            "inventory_item__variant__product",
-        )
-        .order_by("-created_at")
-    )
+    qs = InventoryTransaction.objects.select_related(
+        "inventory_item",
+        "inventory_item__variant",
+        "inventory_item__variant__product",
+    ).order_by("-created_at")
     if variant_id is not None:
         qs = qs.filter(inventory_item__variant_id=variant_id)
     if transaction_type:

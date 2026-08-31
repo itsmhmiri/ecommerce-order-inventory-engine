@@ -69,9 +69,7 @@ class CheckoutService:
             # 3. Validate stock availability for all items under lock
             for item in cart_items:
                 if not item.variant.is_active:
-                    raise ValidationError(
-                        f"SKU '{item.variant.sku}' is inactive and cannot be purchased."
-                    )
+                    raise ValidationError(f"SKU '{item.variant.sku}' is inactive and cannot be purchased.")
 
                 inventory = locked_inventory.get(item.variant_id)
                 available_stock = inventory.available_quantity if inventory is not None else 0
@@ -95,15 +93,17 @@ class CheckoutService:
                 subtotal = unit_price * item.quantity
                 order_total += subtotal
 
-                order_items_data.append({
-                    "variant": item.variant,
-                    "inventory": inventory,
-                    "sku": item.variant.sku,
-                    "product_title": item.variant.product.title,
-                    "unit_price": unit_price,
-                    "quantity": item.quantity,
-                    "subtotal": subtotal,
-                })
+                order_items_data.append(
+                    {
+                        "variant": item.variant,
+                        "inventory": inventory,
+                        "sku": item.variant.sku,
+                        "product_title": item.variant.product.title,
+                        "unit_price": unit_price,
+                        "quantity": item.quantity,
+                        "subtotal": subtotal,
+                    }
+                )
 
             # 5. Create Order record
             order = Order.objects.create(

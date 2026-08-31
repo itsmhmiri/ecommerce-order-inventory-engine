@@ -17,6 +17,7 @@ def test_settings_loaded():
     assert "rest_framework" in settings.INSTALLED_APPS
     assert "drf_spectacular" in settings.INSTALLED_APPS
 
+
 def test_app_registry():
     assert apps.is_installed("apps.common")
     assert apps.is_installed("apps.catalog")

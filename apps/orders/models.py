@@ -15,6 +15,7 @@ class Order(UUIDModel):
     Customer order entity representing a committed purchase.
     Tracks financial amount, fulfillment status, and customer shipping address.
     """
+
     class OrderStatus(models.TextChoices):
         PENDING = "PENDING", "Pending"
         PROCESSING = "PROCESSING", "Processing"
@@ -62,6 +63,7 @@ class OrderItem(models.Model):
     Stores immutable historical snapshots of product title, SKU, and unit price
     at the time of purchase to safeguard against future catalog price/title changes.
     """
+
     order = models.ForeignKey(
         Order,
         on_delete=models.CASCADE,

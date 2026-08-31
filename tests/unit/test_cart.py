@@ -57,7 +57,7 @@ def sample_cart_data(db):
 
     # Setup Inventory
     InventoryItem.objects.create(variant=variant1, quantity=10, reserved_quantity=2)  # Available: 8
-    InventoryItem.objects.create(variant=variant2, quantity=3, reserved_quantity=0)   # Available: 3
+    InventoryItem.objects.create(variant=variant2, quantity=3, reserved_quantity=0)  # Available: 3
     InventoryItem.objects.create(variant=inactive_variant, quantity=5, reserved_quantity=0)
 
     cart = Cart.objects.create(user=user)

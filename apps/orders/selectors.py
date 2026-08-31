@@ -35,11 +35,8 @@ def get_order_by_id(*, order_id: UUID, user: User | None = None) -> Order | None
     if user is not None:
         qs = qs.filter(user=user)
 
-    return (
-        qs.prefetch_related(
-            "items",
-            "items__variant",
-            "items__variant__product",
-        )
-        .first()
-    )
+    return qs.prefetch_related(
+        "items",
+        "items__variant",
+        "items__variant__product",
+    ).first()

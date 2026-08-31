@@ -23,6 +23,7 @@ class CheckoutAPIView(APIView):
     Executes an atomic checkout of the authenticated user's current shopping cart.
     Applies row-level pessimistic locking on inventory to guarantee zero overselling.
     """
+
     permission_classes = [permissions.IsAuthenticated]
 
     @extend_schema(
@@ -84,6 +85,7 @@ class OrderReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Read-only viewset for listing and retrieving authenticated user orders.
     """
+
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = [permissions.IsAuthenticated]
