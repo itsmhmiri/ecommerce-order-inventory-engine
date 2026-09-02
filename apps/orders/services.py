@@ -11,9 +11,12 @@ from django.db import transaction
 from apps.cart.models import Cart
 from apps.inventory.models import InventoryItem, InventoryTransaction
 from apps.inventory.services import InsufficientStockError
+from apps.orders.invoice_service import InvoiceService
 from apps.orders.models import Order, OrderItem
 
 User = get_user_model()
+
+__all__ = ["CheckoutService", "InvoiceService"]
 
 
 class CheckoutService:

@@ -2,9 +2,13 @@
 Order API views: Atomic checkout and authenticated order history / detail retrieval.
 """
 
+from uuid import UUID
+
 from django.core.exceptions import ValidationError as DjangoValidationError
+from django.http import FileResponse
 from drf_spectacular.utils import OpenApiResponse, extend_schema, extend_schema_view
 from rest_framework import permissions, status, viewsets
+from rest_framework.exceptions import NotFound
 from rest_framework.exceptions import ValidationError as DRFValidationError
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -13,8 +17,9 @@ from rest_framework.views import APIView
 from apps.cart.selectors import get_user_cart
 from apps.common.idempotency import idempotent_request
 from apps.inventory.services import InsufficientStockError
+from apps.orders.invoice_service import InvoiceService
 from apps.orders.models import Order
-from apps.orders.selectors import list_user_orders
+from apps.orders.selectors import get_order_by_id, list_user_orders
 from apps.orders.serializers import CheckoutInputSerializer, OrderSerializer
 from apps.orders.services import CheckoutService
 
@@ -100,3 +105,38 @@ class OrderReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
         if getattr(self, "swagger_fake_view", False) or not self.request.user.is_authenticated:
             return Order.objects.none()
         return list_user_orders(user=self.request.user)
+
+
+class OrderInvoiceAPIView(APIView):
+    """
+    Generates and streams a downloadable PDF invoice for an authenticated user's order.
+    """
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    @extend_schema(
+        tags=["Orders"],
+        summary="Download order PDF invoice",
+        description=(
+            "Generate and download an official, itemized PDF invoice for the specified order. "
+            "Includes immutable historical SKU lines, unit prices, taxes breakdown, "
+            "fulfillment status, and payment transaction details."
+        ),
+        responses={
+            (200, "application/pdf"): OpenApiResponse(description="Synchronously generated binary PDF invoice file"),
+            404: OpenApiResponse(description="Order not found or not owned by user"),
+        },
+    )
+    def get(self, request: Request, order_id: UUID) -> FileResponse:
+        user = None if request.user.is_staff else request.user
+        order = get_order_by_id(order_id=order_id, user=user)
+        if order is None:
+            raise NotFound("Order not found.")
+
+        pdf_buffer = InvoiceService.generate_pdf(order)
+        return FileResponse(
+            pdf_buffer,
+            as_attachment=True,
+            filename=f"invoice_{order.id}.pdf",
+            content_type="application/pdf",
+        )

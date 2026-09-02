@@ -79,7 +79,6 @@ def test_concurrent_checkout_prevents_overselling():
     assert len(successes) == 1, f"Expected 1 success, got {len(successes)}. Failures: {failures}"
     assert len(failures) == 9, f"Expected 9 failures, got {len(failures)}"
 
-
     inventory.refresh_from_db()
     assert inventory.quantity == 0, f"Expected quantity 0, got {inventory.quantity}"
 
