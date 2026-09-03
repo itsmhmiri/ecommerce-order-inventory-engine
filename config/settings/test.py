@@ -17,6 +17,7 @@ DATABASES = {
         "NAME": ":memory:",
         "OPTIONS": {
             "timeout": 30,
+            "transaction_mode": "IMMEDIATE",
         },
     }
 }

@@ -93,3 +93,72 @@ def test_concurrent_checkout_prevents_overselling():
 
     # Exactly 1 order in database
     assert Order.objects.count() == 1
+
+
+@pytest.mark.django_db(transaction=True)
+def test_concurrent_checkout_20_users_stress():
+    """
+    Milestone 7 Explicit Requirement:
+    Simulates 20 concurrent users attempting to checkout the LAST remaining item.
+    Guarantees:
+      - Exactly 1 order succeeds.
+      - Exactly 19 checkouts fail with stock validation error.
+      - Final inventory quantity is 0 (never negative).
+      - Audit ledger contains exactly 1 deduction.
+    """
+    category = Category.objects.create(name="Electronics", slug="electronics-concurrency")
+    product = Product.objects.create(
+        category=category,
+        title="Gaming Console",
+        slug="gaming-console",
+        base_price=Decimal("499.99"),
+    )
+    variant = ProductVariant.objects.create(
+        product=product,
+        sku="CONSOLE-001",
+        variant_name="Special Edition",
+        price_override=Decimal("499.99"),
+    )
+    inventory = InventoryItem.objects.create(variant=variant, quantity=1, reserved_quantity=0)
+
+    users = [User.objects.create_user(username=f"stress_user_{i}", password="password123") for i in range(20)]
+    carts = []
+    for u in users:
+        c = Cart.objects.create(user=u)
+        CartItem.objects.create(cart=c, variant=variant, quantity=1)
+        carts.append(c)
+
+    def attempt_checkout(user: User, cart: Cart):
+        try:
+            order = CheckoutService.process_checkout(
+                cart=cart,
+                user=user,
+                idempotency_key=f"stress-key-{user.id}",
+            )
+            return ("SUCCESS", order.id)
+        except Exception as exc:
+            return ("FAILED", str(exc))
+        finally:
+            connection.close()
+
+    with ThreadPoolExecutor(max_workers=20) as executor:
+        futures = [executor.submit(attempt_checkout, users[i], carts[i]) for i in range(20)]
+        results = [f.result() for f in futures]
+
+    successes = [r for r in results if r[0] == "SUCCESS"]
+    failures = [r for r in results if r[0] == "FAILED"]
+
+    assert len(successes) == 1, f"Expected 1 success, got {len(successes)}. Failures: {failures}"
+    assert len(failures) == 19, f"Expected 19 failures, got {len(failures)}"
+
+    inventory.refresh_from_db()
+    assert inventory.quantity == 0, f"Expected quantity 0, got {inventory.quantity}"
+
+    ledger_entries = InventoryTransaction.objects.filter(
+        inventory_item=inventory,
+        transaction_type=InventoryTransaction.TransactionType.PURCHASE_DEDUCTION,
+    )
+    assert ledger_entries.count() == 1
+    assert ledger_entries.first().quantity_delta == -1
+    assert ledger_entries.first().balance_after == 0
+    assert Order.objects.filter(user__in=users).count() == 1
